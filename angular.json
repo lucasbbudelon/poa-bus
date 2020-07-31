@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "poa-bus"
+    }
+  },
+  "defaultProject": "poa-bus",
+  "cli": {
+    "analytics": "6d7b67a0-1add-4666-adfe-a166d077ffeb"
+  }
 }
