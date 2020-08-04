@@ -1,58 +1,55 @@
-<h1>POA-Bus</h1>
-<p class="lead">Sistema integrado ao <a href="http://datapoa.com.br/group/about/mobilidade" target="_blanck">DataPoa</a>
-  para consulta de linhas de ônibus e linhas de lotação.</p>
+<section class="m-3">
+  <h1>POA-Bus</h1>
+  <p class="lead">Sistema integrado ao <a href="http://datapoa.com.br/group/about/mobilidade"
+      target="_blanck">DataPoa</a>
+    para consulta de linhas de ônibus e linhas de lotação.</p>
 
-<form [formGroup]="formGroup" *ngIf="data">
+  <form [formGroup]="formGroup" *ngIf="data">
 
-  <div class="form-group form-inline">
-    Buscar por: <input class="form-control ml-2" type="text" formControlName="search" />
-  </div>
+    <div class="form-group form-inline">
+      Buscar por: <input class="form-control ml-2" type="text" formControlName="search" />
+    </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Linha</th>
-        <th scope="col">Tipo</th>
-        <th scope="col">Nome</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let busLine of data.items; let i = index">
-        <th scope="row">
-          {{ (i+1) + (currentPage > 1 ? (currentPage -1) * pageSize.value : 0) }}
-        </th>
-        <td>
-          {{busLine.id}} # {{busLine.code}}
-        </td>
-        <td [ngSwitch]="busLine.type">
-          <ng-container *ngSwitchCase="busLineType.Bus">
-            <i class="fa fa-bus"></i> Ônibus
-          </ng-container>
-          <ng-container *ngSwitchCase="busLineType.Stocking">
-            <i class="fa fa-users"></i> Lotação
-          </ng-container>
-        </td>
-        <td>
-          {{busLine.name}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 5%;">#</th>
+          <th scope="col" style="width: 10%;">Linha</th>
+          <th scope="col" style="width: 10%;">Tipo</th>
+          <th scope="col" style="width: 50%;">Nome <i class="fas fa-sort-alpha-up"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let busLine of data.items; let i = index">
+          <th scope="row">
+            {{ (i+1) + (currentPage > 1 ? (currentPage -1) * pageSize.value : 0) }}
+          </th>
+          <td>
+            {{busLine.id}} # {{busLine.code}}
+          </td>
+          <td [ngSwitch]="busLine.type">
+            <ng-container *ngSwitchCase="busLineType.Bus">
+              <i class="fa fa-bus"></i> Ônibus
+            </ng-container>
+            <ng-container *ngSwitchCase="busLineType.Stocking">
+              <i class="fas fa-shuttle-van"></i> Lotação
+            </ng-container>
+          </td>
+          <td>
+            {{busLine.name}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="d-flex justify-content-between mt-4">
-    <ngb-pagination 
-      [collectionSize]="data.totalItems" 
-      [(page)]="currentPage" 
-      [pageSize]="pageSize.value"
-      (pageChange)="loadNextPage()" 
-      [maxSize]="10" 
-      [boundaryLinks]="false"
-    >
-    </ngb-pagination>
+    <div class="d-flex justify-content-between mt-4">
+      <ngb-pagination [collectionSize]="data.totalItems" [(page)]="currentPage" [pageSize]="pageSize.value"
+        (pageChange)="loadNextPage()" [maxSize]="paginationMaxSize" [boundaryLinks]="false">
+      </ngb-pagination>
 
-    <select class="custom-select w-auto" formControlName="pageSize">
-      <option *ngFor="let value of itemsPerPage" [ngValue]="value">{{value}} itens por página</option>
-    </select>
-  </div>
-</form>
+      <select class="custom-select w-auto" formControlName="pageSize">
+        <option *ngFor="let value of itemsPerPage" [ngValue]="value">{{value}} itens por página</option>
+      </select>
+    </div>
+  </form>
+</section>

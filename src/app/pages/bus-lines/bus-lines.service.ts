@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { delay, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { ITEMS_PER_PAGE_DEFAULT } from './bus-lines.constants';
@@ -38,7 +38,7 @@ export class BusLinesService {
     return forkJoin(getBusLines, getStockingLines)
       .pipe(
         map(([busLines, stockingLines]) => busLines.concat(stockingLines)),
-        tap((busLines) => this.busLines = busLines),
+        tap((busLines) => this.busLines = this.sortByName(busLines)),
         map((busLines) => this.loadData(busLines, page))
       );
   }
@@ -60,7 +60,7 @@ export class BusLinesService {
 
     return {
       page,
-      items: this.sortByName(busLines.slice(size, size + limit)),
+      items: busLines.slice(size, size + limit),
       totalItems: busLines.length
     };
   }

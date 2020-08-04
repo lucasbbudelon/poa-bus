@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 
-import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT } from './bus-lines.constants';
+import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT, PAGINATION_MAX_SIZE } from './bus-lines.constants';
 import { BusLineData, BusLineType } from './bus-lines.models';
 import { BusLinesService } from './bus-lines.service';
 
@@ -24,6 +24,9 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   }
   get itemsPerPage() {
     return ITEMS_PER_PAGE;
+  }
+  get paginationMaxSize() {
+    return PAGINATION_MAX_SIZE;
   }
 
   public formGroup: FormGroup;
