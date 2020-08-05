@@ -4,8 +4,10 @@ import { Subscription } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT, PAGINATION_MAX_SIZE } from './bus-lines.constants';
-import { BusLineData, BusLineType } from './bus-lines.models';
+import { BusLineData, BusLineType, BusLine } from './bus-lines.models';
 import { BusLinesService } from './bus-lines.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BusLinesItineraryComponent } from './components/bus-lines-itinerary/bus-lines-itinerary.component';
 
 @Component({
   selector: 'app-bus-lines',
@@ -18,9 +20,6 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   }
   get pageSize(): AbstractControl {
     return this.formGroup.get('pageSize');
-  }
-  get busLineType() {
-    return BusLineType;
   }
   get itemsPerPage() {
     return ITEMS_PER_PAGE;
@@ -36,7 +35,8 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
   constructor(
-    private busService: BusLinesService
+    private busService: BusLinesService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -97,5 +97,17 @@ export class BusLinesComponent implements OnInit, OnDestroy {
         finalize(() => this.currentPage = nextPage)
       )
       .subscribe();
+  }
+
+  openItinerary(busLine: BusLine) {
+    this.busService
+      .getItinerary(busLine)
+      .subscribe((itinerary) => {
+        const busLinesItineraryComponent = this.modalService.open(BusLinesItineraryComponent, {
+          scrollable: true,
+          size: 'lg'
+        });
+        busLinesItineraryComponent.componentInstance.itinerary = itinerary;
+      });
   }
 }

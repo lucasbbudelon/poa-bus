@@ -1,0 +1,8 @@
+    <span [ngSwitch]="type">
+      <ng-container *ngSwitchCase="busLineType.Bus">
+        <i class="fa fa-bus"></i> Ônibus
+      </ng-container>
+      <ng-container *ngSwitchCase="busLineType.Stocking">
+        <i class="fas fa-shuttle-van"></i> Lotação
+      </ng-container>
+    </span>

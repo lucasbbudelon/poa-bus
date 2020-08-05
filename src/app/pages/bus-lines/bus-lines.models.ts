@@ -1,9 +1,3 @@
-export interface BusLineApi {
-  id: string;
-  codigo: string;
-  nome: string;
-}
-
 export interface BusLine {
   id: string;
   code: string;
@@ -25,4 +19,16 @@ export interface BusLineData {
 export enum BusLineType {
   Bus = 'o',
   Stocking = 'l',
+}
+
+export interface BusLineItinerary {
+  busLine: BusLine;
+  locations: Location[];
+}
+
+export interface BusLineItineraryLocation {
+  order: number;
+  lat: string;
+  lng: string;
+  urlMap: string;
 }

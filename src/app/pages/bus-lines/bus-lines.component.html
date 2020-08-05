@@ -16,7 +16,8 @@
           <th scope="col" style="width: 5%;">#</th>
           <th scope="col" style="width: 10%;">Linha</th>
           <th scope="col" style="width: 10%;">Tipo</th>
-          <th scope="col" style="width: 50%;">Nome <i class="fas fa-sort-alpha-up"></i></th>
+          <th scope="col" style="width: 45%;">Nome <i class="fas fa-sort-alpha-up"></i></th>
+          <th scope="col" style="width: 15%;"></th>
         </tr>
       </thead>
       <tbody>
@@ -27,22 +28,22 @@
           <td>
             {{busLine.id}} # {{busLine.code}}
           </td>
-          <td [ngSwitch]="busLine.type">
-            <ng-container *ngSwitchCase="busLineType.Bus">
-              <i class="fa fa-bus"></i> Ônibus
-            </ng-container>
-            <ng-container *ngSwitchCase="busLineType.Stocking">
-              <i class="fas fa-shuttle-van"></i> Lotação
-            </ng-container>
+          <td>
+            <app-bus-lines-type [type]="busLine.type"></app-bus-lines-type>
           </td>
           <td>
             {{busLine.name}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-secondary" (click)="openItinerary(busLine)">
+              <i class="fas fa-directions"></i> itinerário
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-2">
       <ngb-pagination [collectionSize]="data.totalItems" [(page)]="currentPage" [pageSize]="pageSize.value"
         (pageChange)="loadNextPage()" [maxSize]="paginationMaxSize" [boundaryLinks]="false">
       </ngb-pagination>

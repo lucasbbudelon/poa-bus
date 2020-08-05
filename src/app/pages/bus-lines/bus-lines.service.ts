@@ -1,11 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, Observable, of } from 'rxjs';
-import { delay, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { ITEMS_PER_PAGE_DEFAULT } from './bus-lines.constants';
-import { BusLine, BusLineApi, BusLineData, BusLinePage, BusLineType } from './bus-lines.models';
+import {
+  BusLine,
+  BusLineData,
+  BusLineItinerary,
+  BusLineItineraryLocation,
+  BusLinePage,
+  BusLineType,
+} from './bus-lines.models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,45 +22,73 @@ export class BusLinesService {
 
   private busLines: BusLine[];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer) { }
 
   getBusLines(page: BusLinePage, filter?: string): Observable<BusLineData> {
 
     if (this.busLines) {
-      const busLines = filter ? this.filterAllByAnyValue(filter) : this.busLines;
-      return of(this.loadData(busLines, page));
+      const busLines = filter ? this.filterBusLinesByAnyValue(filter) : this.busLines;
+      return of(this.loadBusLinesData(busLines, page));
     }
 
     const getBusLines = this.httpClient
-      .get<BusLineApi[]>(`${environment.api}/php/facades/process.php?a=nc&p=%25&t=${BusLineType.Bus}`)
+      .get<any[]>(`${environment.apiDataPoa}/php/facades/process.php?a=nc&p=%25&t=${BusLineType.Bus}`)
       .pipe(
-        map((busLines) => busLines.map((item) => this.convertModelApi(item, BusLineType.Bus))),
+        map((busLines) => busLines.map((item) => this.mapBusLine(item, BusLineType.Bus))),
       );
 
     const getStockingLines = this.httpClient
-      .get<BusLineApi[]>(`${environment.api}/php/facades/process.php?a=nc&p=%25&t=${BusLineType.Stocking}`)
+      .get<any[]>(`${environment.apiDataPoa}/php/facades/process.php?a=nc&p=%25&t=${BusLineType.Stocking}`)
       .pipe(
-        map((busLines) => busLines.map((item) => this.convertModelApi(item, BusLineType.Stocking))),
+        map((busLines) => busLines.map((item) => this.mapBusLine(item, BusLineType.Stocking))),
       );
 
     return forkJoin(getBusLines, getStockingLines)
       .pipe(
         map(([busLines, stockingLines]) => busLines.concat(stockingLines)),
-        tap((busLines) => this.busLines = this.sortByName(busLines)),
-        map((busLines) => this.loadData(busLines, page))
+        tap((busLines) => this.busLines = this.sortBusLinesByName(busLines)),
+        map((busLines) => this.loadBusLinesData(busLines, page))
       );
   }
 
-  private convertModelApi(item: BusLineApi, type: BusLineType) {
+  getItinerary(busLine: BusLine): Observable<BusLineItinerary> {
+    return this.httpClient
+      .get<any>(`${environment.apiDataPoa}/php/facades/process.php?a=il&p=${busLine.id}`)
+      .pipe(
+        map((itinerary) => this.mapItinerary(itinerary, busLine.type)),
+      );
+  }
+
+  private mapBusLine(modelApi: any, type: BusLineType): BusLine {
     return {
-      id: item.id,
-      code: item.codigo,
-      name: item.nome,
+      id: modelApi.id || modelApi.idlinha,
+      code: modelApi.codigo,
+      name: modelApi.nome,
       type
     };
   }
 
-  private loadData(busLines: BusLine[], page: BusLinePage): BusLineData {
+  private mapItinerary(modelApi: any, type: BusLineType): BusLineItinerary {
+    return {
+      busLine: this.mapBusLine(modelApi, type),
+      locations: this.mapLocations(modelApi)
+    };
+  }
+
+  private mapLocations(modelApi: any): Location[] {
+    const locations = Object
+      .keys(modelApi)
+      .filter((locationIndex) => locationIndex.match(/^[0-9]+$/) != null);
+
+    return locations
+      .map((locationIndex) => ({
+        ...modelApi[locationIndex],
+        order: parseInt(locationIndex),
+        urlMap: this.getUrlMapLocation(modelApi[locationIndex])
+      }));
+  }
+
+  private loadBusLinesData(busLines: BusLine[], page: BusLinePage): BusLineData {
 
     const current = page.page ? page.page : 0;
     const limit = page.limit ? page.limit : ITEMS_PER_PAGE_DEFAULT;
@@ -65,7 +101,7 @@ export class BusLinesService {
     };
   }
 
-  private sortByName(busLines: BusLine[]): BusLine[] {
+  private sortBusLinesByName(busLines: BusLine[]): BusLine[] {
     return busLines.sort((a, b) => {
       if (a.name > b.name) {
         return 1;
@@ -77,7 +113,7 @@ export class BusLinesService {
     })
   }
 
-  private filterAllByAnyValue(term: string) {
+  private filterBusLinesByAnyValue(term: string) {
     term = term.toLowerCase();
     return this.busLines
       .filter((busLine) =>
@@ -85,5 +121,13 @@ export class BusLinesService {
         busLine.code.toLowerCase().includes(term) ||
         busLine.name.toLowerCase().includes(term)
       );
+  }
+
+  private getUrlMapLocation(location: BusLineItineraryLocation) {
+    const q = `q=${location.lat},${location.lng}`;
+    const zoom = 'z=18';
+    const output = 'output=embed';
+    const url = `${environment.apiGoogleMaps}/maps?${q}&${zoom}&${output}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

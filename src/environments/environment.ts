@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  api: 'http://www.poatransporte.com.br',
+  apiDataPoa: 'http://www.poatransporte.com.br',
+  apiGoogleMaps: 'https://maps.google.com',
   production: false
 };
 
