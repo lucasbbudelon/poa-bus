@@ -43,7 +43,7 @@ export class BusLinesService {
         map((busLines) => busLines.map((item) => this.mapBusLine(item, BusLineType.Stocking))),
       );
 
-    return forkJoin(getBusLines, getStockingLines)
+    return forkJoin([getBusLines, getStockingLines])
       .pipe(
         map(([busLines, stockingLines]) => busLines.concat(stockingLines)),
         tap((busLines) => this.busLines = this.sortBusLinesByName(busLines)),
@@ -83,7 +83,7 @@ export class BusLinesService {
     return locations
       .map((locationIndex) => ({
         ...modelApi[locationIndex],
-        order: parseInt(locationIndex),
+        order: parseInt(locationIndex, 10),
         urlMap: this.getUrlMapLocation(modelApi[locationIndex])
       }));
   }
@@ -110,7 +110,7 @@ export class BusLinesService {
         return -1;
       }
       return 0;
-    })
+    });
   }
 
   private filterBusLinesByAnyValue(term: string) {

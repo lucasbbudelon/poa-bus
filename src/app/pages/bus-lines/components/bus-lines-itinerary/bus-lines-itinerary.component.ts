@@ -10,6 +10,6 @@ import { BusLineItinerary } from '../../bus-lines.models';
 })
 export class BusLinesItineraryComponent {
   @Input() itinerary: BusLineItinerary;
-  constructor(public activeModal: NgbActiveModal) {
-  }
+  public iframeLoadind: boolean = true;
+  constructor(public activeModal: NgbActiveModal) { }
 }
