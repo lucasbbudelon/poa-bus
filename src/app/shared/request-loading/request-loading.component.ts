@@ -7,9 +7,5 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./request-loading.component.scss']
 })
 export class RequestLoadingComponent {
-  constructor(public activeModal: NgbActiveModal) {
-  }
-  close() {
-    this.activeModal.close();
-  }
+  constructor(public activeModal: NgbActiveModal) { }
 }

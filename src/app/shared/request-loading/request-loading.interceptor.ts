@@ -27,7 +27,7 @@ export class RequestLoadingInterceptor implements HttpInterceptor {
             .handle(request)
             .pipe(
                 filter(response => response.type === HttpEventType.Response),
-                finalize(() => requestLoadingComponent.componentInstance.close())
+                finalize(() => requestLoadingComponent.componentInstance.activeModal.close())
             );
     }
 }

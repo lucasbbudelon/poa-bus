@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT, PAGINATION_MAX_SIZE } from './bus-lines.constants';
-import { BusLineData, BusLineType, BusLine } from './bus-lines.models';
+import { BusLine, BusLineData } from './bus-lines.models';
 import { BusLinesService } from './bus-lines.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BusLinesItineraryComponent } from './components/bus-lines-itinerary/bus-lines-itinerary.component';
 
 @Component({
@@ -35,7 +35,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
   constructor(
-    private busService: BusLinesService,
+    private busLinesService: BusLinesService,
     private modalService: NgbModal
   ) { }
 
@@ -64,7 +64,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   subscribeToSearchChanges() {
     const searchValueChanges$ = this.search.valueChanges
       .pipe(
-        switchMap((filter) => this.busService
+        switchMap((filter) => this.busLinesService
           .getBusLines({ page: 1, limit: this.pageSize.value }, filter))
       )
       .subscribe((data) => this.data = data);
@@ -75,7 +75,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   subscribeToPageSizeChanges() {
     const pageSizeValueChanges$ = this.pageSize.valueChanges
       .pipe(
-        switchMap((value) => this.busService
+        switchMap((value) => this.busLinesService
           .getBusLines({ page: this.currentPage, limit: value }))
       )
       .subscribe((data) => this.data = data);
@@ -90,7 +90,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
 
   loadNextPage() {
     const nextPage = this.currentPage++;
-    this.busService
+    this.busLinesService
       .getBusLines({ page: nextPage, limit: this.pageSize.value })
       .pipe(
         tap((data) => this.data = data),
@@ -100,7 +100,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   }
 
   openItinerary(busLine: BusLine) {
-    this.busService
+    this.busLinesService
       .getItinerary(busLine)
       .subscribe((itinerary) => {
         const busLinesItineraryComponent = this.modalService.open(BusLinesItineraryComponent, {

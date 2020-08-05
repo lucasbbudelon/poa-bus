@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BusLinesTypeComponent when type=Bus 1`] = `
+<app-bus-lines-type
+  type={[Function String]}
+>
+  <span>
+    
+    
+    <i
+      class="fa fa-bus"
+    />
+     Ônibus 
+    
+  </span>
+</app-bus-lines-type>
+`;
+
+exports[`BusLinesTypeComponent when type=Stocking 1`] = `
+<app-bus-lines-type
+  type={[Function String]}
+>
+  <span>
+    
+    
+    
+    <i
+      class="fas fa-shuttle-van"
+    />
+     Lotação 
+  </span>
+</app-bus-lines-type>
+`;
