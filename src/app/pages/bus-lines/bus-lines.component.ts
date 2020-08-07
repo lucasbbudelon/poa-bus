@@ -4,8 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 
-import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT, PAGINATION_MAX_SIZE } from './bus-lines.constants';
-import { BusLine, BusLineData } from './bus-lines.models';
+import { ITEMS_PER_PAGE, ITEMS_PER_PAGE_DEFAULT, MODAL_ITINERARY_OPTIONS, PAGINATION_MAX_SIZE } from './bus-lines.constants';
+import { BusLine, BusLineData, BusLinePage } from './bus-lines.models';
 import { BusLinesService } from './bus-lines.service';
 import { BusLinesItineraryComponent } from './components/bus-lines-itinerary/bus-lines-itinerary.component';
 
@@ -26,6 +26,12 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   }
   get paginationMaxSize() {
     return PAGINATION_MAX_SIZE;
+  }
+  get firstPage(): BusLinePage {
+    return { current: 1, limit: this.pageSize.value };
+  }
+  get nextPage(): BusLinePage {
+    return { current: this.currentPage++, limit: this.pageSize.value };
   }
 
   public formGroup: FormGroup;
@@ -65,7 +71,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
     const searchValueChanges$ = this.search.valueChanges
       .pipe(
         switchMap((filter) => this.busLinesService
-          .getBusLines({ page: 1, limit: this.pageSize.value }, filter))
+          .getBusLines(this.firstPage, filter))
       )
       .subscribe((data) => this.data = data);
 
@@ -76,7 +82,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
     const pageSizeValueChanges$ = this.pageSize.valueChanges
       .pipe(
         switchMap((value) => this.busLinesService
-          .getBusLines({ page: this.currentPage, limit: value }))
+          .getBusLines({ current: this.currentPage, limit: value }))
       )
       .subscribe((data) => this.data = data);
 
@@ -84,17 +90,21 @@ export class BusLinesComponent implements OnInit, OnDestroy {
   }
 
   loadFirstPage() {
-    this.currentPage = 0;
-    this.loadNextPage();
+    this.busLinesService
+      .getBusLines(this.firstPage)
+      .pipe(
+        tap((data) => this.data = data),
+        tap((data) => this.currentPage = data.page.current),
+      )
+      .subscribe();
   }
 
   loadNextPage() {
-    const nextPage = this.currentPage++;
     this.busLinesService
-      .getBusLines({ page: nextPage, limit: this.pageSize.value })
+      .getBusLines(this.nextPage)
       .pipe(
         tap((data) => this.data = data),
-        finalize(() => this.currentPage = nextPage)
+        tap((data) => this.currentPage = data.page.current),
       )
       .subscribe();
   }
@@ -103,10 +113,7 @@ export class BusLinesComponent implements OnInit, OnDestroy {
     this.busLinesService
       .getItinerary(busLine)
       .subscribe((itinerary) => {
-        const busLinesItineraryComponent = this.modalService.open(BusLinesItineraryComponent, {
-          scrollable: true,
-          size: 'lg'
-        });
+        const busLinesItineraryComponent = this.modalService.open(BusLinesItineraryComponent, MODAL_ITINERARY_OPTIONS);
         busLinesItineraryComponent.componentInstance.itinerary = itinerary;
       });
   }

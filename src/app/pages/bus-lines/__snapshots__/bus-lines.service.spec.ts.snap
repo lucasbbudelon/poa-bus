@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BusLineService when fetching bus lines should return paged results page one 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "T11-2",
+      "id": "5486",
+      "name": "3ª PERIMETRAL",
+      "type": "o",
+    },
+    Object {
+      "code": "T11-2",
+      "id": "5486",
+      "name": "3ª PERIMETRAL",
+      "type": "l",
+    },
+    Object {
+      "code": "20.6-2",
+      "id": "32",
+      "name": "GLORIA",
+      "type": "o",
+    },
+    Object {
+      "code": "20.6-2",
+      "id": "32",
+      "name": "GLORIA",
+      "type": "l",
+    },
+    Object {
+      "code": "353-1",
+      "id": "5612",
+      "name": "IPIRANGA / PUC / UFRGS",
+      "type": "o",
+    },
+  ],
+  "page": Object {
+    "current": 1,
+    "limit": 5,
+  },
+  "totalItems": 20,
+}
+`;
+
+exports[`BusLineService when fetching bus lines should return paged results page three 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "184-1",
+      "id": "5024",
+      "name": "JUCA BATISTA",
+      "type": "o",
+    },
+    Object {
+      "code": "184-1",
+      "id": "5024",
+      "name": "JUCA BATISTA",
+      "type": "l",
+    },
+    Object {
+      "code": "4951-1",
+      "id": "5680",
+      "name": "MANOEL ELIAS/MORRO SANTANA",
+      "type": "o",
+    },
+    Object {
+      "code": "4951-1",
+      "id": "5680",
+      "name": "MANOEL ELIAS/MORRO SANTANA",
+      "type": "l",
+    },
+    Object {
+      "code": "490-2",
+      "id": "5665",
+      "name": "MORRO SANTANA",
+      "type": "o",
+    },
+  ],
+  "page": Object {
+    "current": 3,
+    "limit": 5,
+  },
+  "totalItems": 20,
+}
+`;
+
+exports[`BusLineService when fetching bus lines should return paged results page two 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "353-1",
+      "id": "5612",
+      "name": "IPIRANGA / PUC / UFRGS",
+      "type": "l",
+    },
+    Object {
+      "code": "340-1",
+      "id": "5583",
+      "name": "JARDIM BOTANICO",
+      "type": "o",
+    },
+    Object {
+      "code": "340-1",
+      "id": "5583",
+      "name": "JARDIM BOTANICO",
+      "type": "l",
+    },
+    Object {
+      "code": "40.2-1",
+      "id": "45",
+      "name": "JOAO ABOTT",
+      "type": "o",
+    },
+    Object {
+      "code": "40.2-1",
+      "id": "45",
+      "name": "JOAO ABOTT",
+      "type": "l",
+    },
+  ],
+  "page": Object {
+    "current": 2,
+    "limit": 5,
+  },
+  "totalItems": 20,
+}
+`;
+
+exports[`BusLineService when fetching bus lines when filter values should filter by code 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "7052-1",
+      "id": "5978",
+      "name": "AEROPORTO/CEASA",
+      "type": "o",
+    },
+  ],
+  "page": Object {
+    "current": 1,
+    "limit": 10,
+  },
+  "totalItems": 1,
+}
+`;
+
+exports[`BusLineService when fetching bus lines when filter values should filter by id 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "282-2",
+      "id": "5414",
+      "name": "CRUZEIRO DO SUL",
+      "type": "o",
+    },
+  ],
+  "page": Object {
+    "current": 1,
+    "limit": 10,
+  },
+  "totalItems": 1,
+}
+`;
+
+exports[`BusLineService when fetching bus lines when filter values should filter by name 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "code": "50.11-1",
+      "id": "52",
+      "name": "AUXILIADORA - ANITA",
+      "type": "l",
+    },
+  ],
+  "page": Object {
+    "current": 1,
+    "limit": 10,
+  },
+  "totalItems": 1,
+}
+`;
+
+exports[`BusLineService when fetching itinerary 1`] = `
+Object {
+  "busLine": Object {
+    "code": "T11-1",
+    "id": "5485",
+    "name": "3ª PERIMETRAL",
+    "type": "o",
+  },
+  "locations": Array [
+    Object {
+      "lat": "-30.02091857422600000",
+      "lng": "-51.10401713620700000",
+      "order": 0,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02080957422600000",
+      "lng": "-51.10340913620700000",
+      "order": 1,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02079457422600000",
+      "lng": "-51.10332613620700000",
+      "order": 2,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02075357422600000",
+      "lng": "-51.10310013620700000",
+      "order": 3,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02071757422600000",
+      "lng": "-51.10289913620700000",
+      "order": 4,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02092657422600000",
+      "lng": "-51.10284513620700000",
+      "order": 5,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02152757422600000",
+      "lng": "-51.10274113620700000",
+      "order": 6,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02172157422600000",
+      "lng": "-51.10270213620700000",
+      "order": 7,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02215557422600000",
+      "lng": "-51.10262813620700000",
+      "order": 8,
+      "urlMap": "safeResourceUrl",
+    },
+    Object {
+      "lat": "-30.02238257422600000",
+      "lng": "-51.10259513620700000",
+      "order": 9,
+      "urlMap": "safeResourceUrl",
+    },
+  ],
+}
+`;

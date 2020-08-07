@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "jest --coverage=false",
+    "test:snapshot": "jest  --coverage=false --updateSnapshot",
     "test:coverage": "jest"
   },
   "private": true,

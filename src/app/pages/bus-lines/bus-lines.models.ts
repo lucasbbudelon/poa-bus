@@ -6,7 +6,7 @@ export interface BusLine {
 }
 
 export interface BusLinePage {
-  page?: number;
+  current?: number;
   limit?: number;
 }
 

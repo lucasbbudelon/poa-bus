@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, finalize } from 'rxjs/operators';
 
 import { RequestLoadingComponent } from './request-loading.component';
+import { LOADING_OPTIONS } from './request-loading.constants';
 
 @Injectable({
     providedIn: 'root',
@@ -14,14 +15,7 @@ export class RequestLoadingInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
 
-        const requestLoadingComponent = this.modalService.open(RequestLoadingComponent,
-            {
-                centered: true,
-                keyboard: false,
-                backdrop: 'static',
-                size: 'sm',
-            }
-        );
+        const requestLoadingComponent = this.modalService.open(RequestLoadingComponent, LOADING_OPTIONS);
 
         return next
             .handle(request)

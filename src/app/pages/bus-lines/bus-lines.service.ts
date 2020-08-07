@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, finalize } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { ITEMS_PER_PAGE_DEFAULT } from './bus-lines.constants';
@@ -20,7 +20,7 @@ import {
 })
 export class BusLinesService {
 
-  private busLines: BusLine[];
+  busLines: BusLine[];
 
   constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer) { }
 
@@ -47,7 +47,7 @@ export class BusLinesService {
       .pipe(
         map(([busLines, stockingLines]) => busLines.concat(stockingLines)),
         tap((busLines) => this.busLines = this.sortBusLinesByName(busLines)),
-        map((busLines) => this.loadBusLinesData(busLines, page))
+        map((busLines) => this.loadBusLinesData(busLines, page)),
       );
   }
 
@@ -90,13 +90,11 @@ export class BusLinesService {
 
   private loadBusLinesData(busLines: BusLine[], page: BusLinePage): BusLineData {
 
-    const current = page.page ? page.page : 0;
-    const limit = page.limit ? page.limit : ITEMS_PER_PAGE_DEFAULT;
-    const size = (current - 1) * limit;
+    const size = (page.current - 1) * page.limit;
 
     return {
       page,
-      items: busLines.slice(size, size + limit),
+      items: busLines.slice(size, size + page.limit),
       totalItems: busLines.length
     };
   }
@@ -125,7 +123,7 @@ export class BusLinesService {
 
   private getUrlMapLocation(location: BusLineItineraryLocation) {
     const q = `q=${location.lat},${location.lng}`;
-    const zoom = 'z=18';
+    const zoom = 'z=20';
     const output = 'output=embed';
     const url = `${environment.apiGoogleMaps}/maps?${q}&${zoom}&${output}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);

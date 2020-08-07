@@ -5,7 +5,6 @@ import { catchError, filter } from 'rxjs/operators';
 
 import { RequestErrorComponent } from './request-error.component';
 
-
 @Injectable({
     providedIn: 'root',
 })

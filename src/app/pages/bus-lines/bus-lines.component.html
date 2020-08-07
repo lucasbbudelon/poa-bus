@@ -44,12 +44,19 @@
     </table>
 
     <div class="d-flex justify-content-between mt-2">
-      <ngb-pagination [collectionSize]="data.totalItems" [(page)]="currentPage" [pageSize]="pageSize.value"
-        (pageChange)="loadNextPage()" [maxSize]="paginationMaxSize" [boundaryLinks]="false">
+      <ngb-pagination 
+        [collectionSize]="data.totalItems" 
+        [(page)]="currentPage" 
+        [pageSize]="pageSize.value"
+        (pageChange)="loadNextPage()" 
+        [maxSize]="paginationMaxSize" 
+        [boundaryLinks]="false">
       </ngb-pagination>
 
       <select class="custom-select w-auto" formControlName="pageSize">
-        <option *ngFor="let value of itemsPerPage" [ngValue]="value">{{value}} itens por página</option>
+        <option *ngFor="let value of itemsPerPage" [ngValue]="value">
+          {{value}} itens por página
+        </option>
       </select>
     </div>
   </form>
