@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, tap, finalize } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-import { ITEMS_PER_PAGE_DEFAULT } from './bus-lines.constants';
 import {
   BusLine,
   BusLineData,

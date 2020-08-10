@@ -29,11 +29,11 @@ describe('RequestLoadingInterceptor', () => {
             imports: [HttpClientTestingModule],
         });
 
-        httpClient = TestBed.get(HttpClient);
-        httpMock = TestBed.get(HttpTestingController);
+        httpClient = TestBed.inject(HttpClient);
+        httpMock = TestBed.inject(HttpTestingController);
 
-        modalService = TestBed.get(NgbModal);
-        activeModal = TestBed.get(NgbActiveModal);
+        modalService = TestBed.inject(NgbModal);
+        activeModal = TestBed.inject(NgbActiveModal);
     });
 
     describe('should a request backend', () => {

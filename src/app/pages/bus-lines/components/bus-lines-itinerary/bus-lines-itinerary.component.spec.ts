@@ -23,7 +23,7 @@ describe('BusLinesItineraryComponent', () => {
     fixture = TestBed.createComponent(BusLinesItineraryComponent);
     component = fixture.componentInstance;
     component.itinerary = BUS_LINES_ITINERARY_MOCK;
-    activeModal = TestBed.get(NgbActiveModal);
+    activeModal = TestBed.inject(NgbActiveModal);
   });
 
   it('should create', () => {

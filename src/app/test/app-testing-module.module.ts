@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbAccordionModule, NgbActiveModal, NgbModal, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DomSanitizerMock } from './mocks/dom-sanitizer.mock';
 import { HttpClientMock } from './mocks/http-client.mock';
@@ -21,7 +21,7 @@ import { NgbModalMock } from './mocks/ngb-modal.mock';
         ReactiveFormsModule,
         FormsModule,
 
-        //ng-bootstrap
+        // ng-bootstrap
         NgbModule
     ],
     providers: [
@@ -29,7 +29,7 @@ import { NgbModalMock } from './mocks/ngb-modal.mock';
         { provide: HttpClient, useClass: HttpClientMock },
         { provide: DomSanitizer, useClass: DomSanitizerMock },
 
-        //ng-bootstrap
+        // ng-bootstrap
         { provide: NgbModal, useClass: NgbModalMock },
         { provide: NgbActiveModal, useClass: NgbActiveModalMock },
     ],

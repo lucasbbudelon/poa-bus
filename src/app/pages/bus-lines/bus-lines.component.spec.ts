@@ -1,19 +1,18 @@
-import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppTestingModule } from 'src/app/test/app-testing-module.module';
 
 import { BusLinesComponent } from './bus-lines.component';
 import { MODAL_ITINERARY_OPTIONS } from './bus-lines.constants';
+import { BusLinePage } from './bus-lines.models';
 import { BusLinesService } from './bus-lines.service';
-import { BUS_LINE_DATA_MOCK, BusLinesServiceMock, BUS_LINE_MOCK } from './bus-lines.service.mock';
+import { BUS_LINE_DATA_MOCK, BUS_LINE_MOCK, BusLinesServiceMock } from './bus-lines.service.mock';
 import { BusLinesItineraryComponent } from './components/bus-lines-itinerary/bus-lines-itinerary.component';
 import { BusLinesTypeComponent } from './components/bus-lines-type/bus-lines-type.component';
-import { BusLinePage } from './bus-lines.models';
 
 describe('BusLinesComponent', () => {
   let component: BusLinesComponent;
   let fixture: ComponentFixture<BusLinesComponent>;
-  let injector: TestBed;
 
   let busLinesService: BusLinesService;
   let modalService: NgbModal;
@@ -35,9 +34,8 @@ describe('BusLinesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BusLinesComponent);
     component = fixture.componentInstance;
-    injector = getTestBed();
-    busLinesService = injector.get(BusLinesService);
-    modalService = injector.get(NgbModal);
+    busLinesService = TestBed.inject(BusLinesService);
+    modalService = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

@@ -1,10 +1,8 @@
-import { async, ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
-import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbActiveModalMock } from 'src/app/test/mocks/ngb-active-modal.mock';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AppTestingModule } from 'src/app/test/app-testing-module.module';
 
 import { RequestErrorComponent } from './request-error.component';
-import { AppTestingModule } from 'src/app/test/app-testing-module.module';
-import { By } from '@angular/platform-browser';
 
 describe('RequestErrorComponent', () => {
   let component: RequestErrorComponent;
@@ -22,7 +20,7 @@ describe('RequestErrorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RequestErrorComponent);
     component = fixture.componentInstance;
-    activeModal = TestBed.get(NgbActiveModal);
+    activeModal = TestBed.inject(NgbActiveModal);
   });
 
   it('should create', () => {
