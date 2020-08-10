@@ -1,27 +1,87 @@
 # PoaBus
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.8.
+Sistema integrado ao [DataPoa](http://datapoa.com.br/group/about/mobilidade) para consulta de linhas de ônibus e linhas de lotação.
 
-## Development server
+[Live Preview](http://poa-bus.surge.sh)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Scripts
 
-## Code scaffolding
+Rodar o projeto localhost.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```console
+npm install
+npm start
+```
 
-## Build
+### Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Gerar um build
 
-## Running unit tests
+```console
+npm run build
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Gerar um build para produção
 
-## Running end-to-end tests
+```console
+npm run build:prod
+```
+## Testes
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+O projeto utiliza [jest](https://jestjs.io/) para rodar os testes unitários, para rodar todos os testes, utilize:
 
-## Further help
+```console
+npm test
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Para rodar os testes e limpar os snapshots, utilize:
+
+```console
+npm run test:snapshot
+```
+
+Para rodar os testes e gerar o relatório de code-coverage, utilize:
+
+```console
+npm run test:coverage
+```
+
+Abre relatório de cobertura de código.
+
+```console
+npm run open-coverage
+```
+
+### Dependências
+
+Instala dependências do projeto.
+
+```console
+npm install
+```
+
+Limpa dependências do projeto.
+
+```console
+npm run clean
+```
+
+Limpa dependências (npm run clean) e instalar tudo novamente (npm install).
+
+```console
+npm run reinstall
+```
+
+### CI/CD
+
+Valida o código (ng lint) e roda os testes com relatório de coverage (npm run test:snapshot).
+
+```console
+npm run review
+```
+
+Este projeto utiliza o [surge.sh](https://surge.sh/) para deploy.
+
+```console
+npm run deploy
+```

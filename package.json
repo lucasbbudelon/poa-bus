@@ -3,11 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --poll 1000 --aot -o --host 0.0.0.0",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "test": "jest --coverage=false",
     "test:snapshot": "jest  --coverage=false --updateSnapshot",
-    "test:coverage": "jest"
+    "test:coverage": "jest",
+    "open-coverage": "google-chrome-stable coverage/lcov-report/index.html",
+    "clean": "rm -rf node_modules && rm -rf package-lock.json && npm cache clean --force",
+    "reinstall": "npm run clean && npm install",
+    "review": "ng lint && npm run test:coverage",
+    "deploy": "npm run review && npm run build:prod && surge $(echo $PWD'/dist/poa-bus') poa-bus.surge.sh"
   },
   "private": true,
   "dependencies": {
